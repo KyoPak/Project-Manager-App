@@ -58,12 +58,6 @@ extension MainViewModel {
         self.processListHandler = handler
     }
     
-    func setupInitial() {
-        todoData = []
-        doingData = []
-        doneData = []
-    }
-    
     func fetchSeletedData(process: Process, index: Int?) -> Plan? {
         guard let index = index else { return nil }
         

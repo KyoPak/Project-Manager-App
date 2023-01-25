@@ -42,14 +42,9 @@ final class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBinding()
-        setupInitial()
         setupNavigationBar()
         setupView()
         setupConstraint()
-    }
-    
-    private func setupInitial() {
-        viewModel.setupInitial()
     }
     
     private func setupBinding() {
@@ -111,7 +106,6 @@ extension MainViewController {
         present(alert, animated: true)
     }
 }
-
 
 // MARK: - Action
 extension MainViewController {

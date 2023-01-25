@@ -119,10 +119,7 @@ extension ProcessView: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        selectDataDelegate?.shareUpdateEvent(
-            process: viewModel.process,
-            index: indexPath.row
-        )
+        selectDataDelegate?.shareUpdateEvent(process: viewModel.process, index: indexPath.row)
     }
     
     func tableView(
@@ -178,6 +175,7 @@ extension ProcessView {
 extension ProcessView {
     private func setupView() {
         titleLabel.text = "\(viewModel.process)"
+        countLabel.text = String(Int.zero)
         [headerView, tableView].forEach(addArrangedSubview(_:))
         axis = .vertical
         alignment = .fill
