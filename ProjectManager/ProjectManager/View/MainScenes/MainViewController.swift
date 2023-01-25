@@ -112,6 +112,10 @@ extension MainViewController {
     @objc private func addButtonTapped() {
         shareUpdateEvent(process: .todo, index: nil)
     }
+    
+    @objc private func historyButtonTapped() {
+        // TODO: - Action Implementation
+    }
 }
 
 // MARK: - DataManageable, EventManageable Delegate Protocol
@@ -146,11 +150,20 @@ extension MainViewController {
         navigationController?.navigationBar.standardAppearance = appearance
         navigationController?.navigationBar.scrollEdgeAppearance = appearance
 
+        let historyBarButton = UIBarButtonItem(
+            title: "History",
+            style: .plain,
+            target: self,
+            action: #selector(historyButtonTapped)
+        )
+        
         let addBarButton = UIBarButtonItem(
             barButtonSystemItem: .add,
             target: self,
             action: #selector(addButtonTapped)
         )
+        
+        navigationItem.leftBarButtonItem = historyBarButton
         navigationItem.rightBarButtonItem = addBarButton
     }
     
