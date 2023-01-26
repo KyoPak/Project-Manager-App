@@ -8,12 +8,13 @@
 import Foundation
 
 struct Plan: Hashable {
+    let id: UUID
     var title: String
-    var content: String?
-    var deadLine: Date?
+    var content: String
+    var deadLine: Date
+    var process: Process
     
     var convertDeadline: String {
-        guard let deadLine = deadLine else { return "" }
         return DateFormatter.convertToString(deadLine)
     }
     

@@ -8,7 +8,13 @@
 import Foundation
 
 final class CellViewModel {
-    private var data: Plan = Plan(title: "") {
+    private enum Constant {
+        static let defaultData = Plan(
+            id: UUID(), title: "", content: "", deadLine: Date(), process: .todo
+        )
+    }
+    
+    private var data: Plan = Constant.defaultData {
         didSet {
             dataHandler?(data)
         }

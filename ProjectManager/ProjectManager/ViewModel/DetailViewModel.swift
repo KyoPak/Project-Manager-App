@@ -103,7 +103,14 @@ extension DetailViewModel {
         isfinishEdit.toggle()
     }
     
-    func createData(title: String, content: String?, date: Date?) -> Plan {
-        return Plan(title: title, content: content, deadLine: date)
+    func createData(title: String?, content: String?, date: Date?) -> Plan {
+        
+        return Plan(
+            id: UUID(),
+            title: title ?? "",
+            content: content ?? "",
+            deadLine: date ?? Date(),
+            process: .todo
+        )
     }
 }

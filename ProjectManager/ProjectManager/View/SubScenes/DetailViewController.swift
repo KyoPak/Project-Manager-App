@@ -63,12 +63,11 @@ final class DetailViewController: UIViewController {
 // MARK: - Action
 extension DetailViewController {
     @objc private func doneButtonTapped() {
-        guard let title = detailView.titleTextField.text else { return }
         let date = datePickerWheel(detailView.datePicker)
         
         delegate?.shareData(
             viewModel.createData(
-                title: title,
+                title: detailView.titleTextField.text,
                 content: detailView.contentTextView.text,
                 date: date
             ),

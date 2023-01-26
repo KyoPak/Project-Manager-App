@@ -104,43 +104,36 @@ extension MainViewModel {
         }
     }
 
-    func deleteData(process: Process, index: Int) {
+    @discardableResult
+    func deleteData(process: Process, index: Int) -> Plan? {
         switch process {
         case .todo:
-            guard index < todoData.count else { return }
-            todoData.remove(at: index)
+            guard index < todoData.count else { return nil }
+            return todoData.remove(at: index)
         case .doing:
-            guard index < doingData.count else { return }
-            doingData.remove(at: index)
+            guard index < doingData.count else { return nil }
+            return doingData.remove(at: index)
         case .done:
-            guard index < doneData.count else { return }
-            doneData.remove(at: index)
+            guard index < doneData.count else { return nil }
+            return doneData.remove(at: index)
         }
     }
     
     func changeProcess(_ after: Process) {
         guard let before = movePlan?.beforeProcess else { return }
         guard let index = movePlan?.index else { return }
+        guard var data = deleteData(process: before, index: index) else { return }
         
-        switch before {
+        switch after {
         case .todo:
-            if after == .doing {
-                doingData.append(todoData.remove(at: index))
-            } else {
-                doneData.append(todoData.remove(at: index))
-            }
+            data.process = .todo
+            todoData.append(data)
         case .doing:
-            if after == .todo {
-                todoData.append(doingData.remove(at: index))
-            } else {
-                doneData.append(doingData.remove(at: index))
-            }
+            data.process = .doing
+            doingData.append(data)
         case .done:
-            if after == .todo {
-                todoData.append(doneData.remove(at: index))
-            } else {
-                doingData.append(doneData.remove(at: index))
-            }
+            data.process = .done
+            doneData.append(data)
         }
         
         movePlan = nil
