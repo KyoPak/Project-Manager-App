@@ -8,6 +8,8 @@
 import Foundation
 
 final class MainViewModel {
+    private let fireStoreManager = FireStoreManager()
+    
     private var todoData: [Plan] = [] {
         didSet {
             todoHandler?(todoData)
@@ -91,6 +93,7 @@ extension MainViewModel {
     func updateData(data: Plan, index: Int?) {
         guard let index = index else {
             todoData.append(data)
+            fireStoreManager.add(data: data)
             return
         }
         
@@ -104,21 +107,28 @@ extension MainViewModel {
         default:
             return
         }
+        
+        fireStoreManager.add(data: data)
     }
 
     @discardableResult
     func deleteData(process: Process, index: Int) -> Plan? {
+        let data: Plan
         switch process {
         case .todo:
             guard index < todoData.count else { return nil }
-            return todoData.remove(at: index)
+            data = todoData.remove(at: index)
         case .doing:
             guard index < doingData.count else { return nil }
-            return doingData.remove(at: index)
+            data = doingData.remove(at: index)
         case .done:
             guard index < doneData.count else { return nil }
-            return doneData.remove(at: index)
+            data = doneData.remove(at: index)
         }
+        
+        fireStoreManager.delete(data: data)
+        return data
+        
     }
     
     func changeProcess(_ after: Process) {
@@ -138,6 +148,7 @@ extension MainViewModel {
             doneData.append(data)
         }
         
+        fireStoreManager.add(data: data)
         movePlan = nil
     }
 }
