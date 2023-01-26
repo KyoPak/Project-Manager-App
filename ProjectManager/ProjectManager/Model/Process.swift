@@ -11,6 +11,17 @@ enum Process: CaseIterable {
     case todo
     case doing
     case done
+    
+    var state: Int {
+        switch self {
+        case .todo:
+            return 0
+        case .doing:
+            return 1
+        case .done:
+            return 2
+        }
+    }
 }
 
 extension Process: CustomStringConvertible {

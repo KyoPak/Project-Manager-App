@@ -43,19 +43,19 @@ final class MainViewModel {
 // MARK: - Method
 extension MainViewModel {
     func bindTodo(handler: @escaping ([Plan]) -> Void) {
-        self.todoHandler = handler
+        todoHandler = handler
     }
     
     func bindDoing(handler: @escaping ([Plan]) -> Void) {
-        self.doingHandler = handler
+        doingHandler = handler
     }
     
     func bindDone(handler: @escaping ([Plan]) -> Void) {
-        self.doneHandler = handler
+        doneHandler = handler
     }
     
     func bindProcessList(handler: @escaping ([Process]) -> Void) {
-        self.processListHandler = handler
+        processListHandler = handler
     }
     
     func fetchSeletedData(process: Process, index: Int?) -> Plan? {
@@ -88,19 +88,21 @@ extension MainViewModel {
 
 // MARK: - Update, Delete Data, Change Process
 extension MainViewModel {
-    func updateData(data: Plan, process: Process, index: Int?) {
+    func updateData(data: Plan, index: Int?) {
         guard let index = index else {
             todoData.append(data)
             return
         }
         
-        switch process {
-        case .todo:
+        switch data.processState {
+        case Process.todo.state:
             todoData[index] = data
-        case .doing:
+        case Process.doing.state:
             doingData[index] = data
-        case .done:
+        case Process.done.state:
             doneData[index] = data
+        default:
+            return
         }
     }
 
@@ -126,13 +128,13 @@ extension MainViewModel {
         
         switch after {
         case .todo:
-            data.process = .todo
+            data.processState = Process.todo.state
             todoData.append(data)
         case .doing:
-            data.process = .doing
+            data.processState = Process.doing.state
             doingData.append(data)
         case .done:
-            data.process = .done
+            data.processState = Process.done.state
             doneData.append(data)
         }
         

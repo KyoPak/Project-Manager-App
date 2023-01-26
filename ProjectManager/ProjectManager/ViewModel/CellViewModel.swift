@@ -10,7 +10,7 @@ import Foundation
 final class CellViewModel {
     private enum Constant {
         static let defaultData = Plan(
-            id: UUID(), title: "", content: "", deadLine: Date(), process: .todo
+            id: UUID(), title: "", content: "", deadLine: Date(), processState: Process.todo.state
         )
     }
     
@@ -26,7 +26,7 @@ final class CellViewModel {
 // MARK: - Method
 extension CellViewModel {
     func bindData(handler: @escaping (Plan) -> Void) {
-        self.dataHandler = handler
+        dataHandler = handler
     }
     
     func setupData(_ data: Plan) {

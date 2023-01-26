@@ -7,7 +7,7 @@
 import UIKit
 
 protocol DataManageable: AnyObject {
-    func shareData(_ data: Plan, process: Process, index: Int?)
+    func shareData(_ data: Plan, index: Int?)
 }
 
 protocol EventManageable: AnyObject {
@@ -70,7 +70,7 @@ final class MainViewController: UIViewController {
 extension MainViewController {
     private func presentDetailView(process: Process, index: Int?) {
         let selectedData = viewModel.fetchSeletedData(process: process, index: index)
-        let detailViewModel = DetailViewModel(data: selectedData, process: process, index: index)
+        let detailViewModel = DetailViewModel(data: selectedData, index: index)
         
         let detailViewController = DetailViewController(
             viewModel: detailViewModel
@@ -128,8 +128,8 @@ extension MainViewController: DataManageable, EventManageable {
         viewModel.deleteData(process: process, index: index)
     }
     
-    func shareData(_ data: Plan, process: Process, index: Int?) {
-        viewModel.updateData(data: data, process: process, index: index)
+    func shareData(_ data: Plan, index: Int?) {
+        viewModel.updateData(data: data, index: index)
     }
 }
 

@@ -12,7 +12,7 @@ struct Plan: Hashable {
     var title: String
     var content: String
     var deadLine: Date
-    var process: Process
+    var processState: Int
     
     var convertDeadline: String {
         return DateFormatter.convertToString(deadLine)

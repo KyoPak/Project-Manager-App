@@ -12,8 +12,9 @@ final class DetailViewModel {
         static let defaultText = ""
     }
 
+    private let dataId: UUID
     private(set) var index: Int?
-    private(set) var process: Process
+    private(set) var processStatus: Int
     
     private var title: String = Constant.defaultText {
         didSet {
@@ -51,16 +52,20 @@ final class DetailViewModel {
     private var editableHandler: ((Bool) -> Void)?
     private var finishHandler: (() -> Void)?
     
-    init(data: Plan?, process: Process, index: Int?) {
-        self.process = process
+    init(data: Plan?, index: Int?) {
         guard let data = data else {
+            dataId = UUID()
+            processStatus = Process.todo.state
             isEdiatable = true
             return
         }
+        
         self.index = index
-        self.title = data.title
-        self.date = data.deadLine ?? Date()
-        self.content = data.content ?? Constant.defaultText
+        dataId = data.id
+        title = data.title
+        date = data.deadLine
+        content = data.content
+        processStatus = data.processState
         isEdiatable = false
     }
 }
@@ -73,26 +78,26 @@ extension DetailViewModel {
     
     func bindTitle(handler: @escaping (String) -> Void) {
         handler(title)
-        self.titleHandler = handler
+        titleHandler = handler
     }
     
     func bindDate(handler: @escaping (Date) -> Void) {
         handler(date)
-        self.dateHandler = handler
+        dateHandler = handler
     }
     
     func bindContent(handler: @escaping (String) -> Void) {
         handler(content)
-        self.contentHandler = handler
+        contentHandler = handler
     }
     
     func bindEditable(handler: @escaping (Bool) -> Void) {
         handler(isEdiatable)
-        self.editableHandler = handler
+        editableHandler = handler
     }
     
     func bindFinishEvent(handler: @escaping () -> Void) {
-        self.finishHandler = handler
+        finishHandler = handler
     }
     
     func editToggle() {
@@ -106,11 +111,11 @@ extension DetailViewModel {
     func createData(title: String?, content: String?, date: Date?) -> Plan {
         
         return Plan(
-            id: UUID(),
+            id: dataId,
             title: title ?? "",
             content: content ?? "",
             deadLine: date ?? Date(),
-            process: .todo
+            processState: processStatus
         )
     }
 }

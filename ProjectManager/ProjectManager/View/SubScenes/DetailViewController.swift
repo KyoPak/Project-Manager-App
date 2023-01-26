@@ -71,7 +71,6 @@ extension DetailViewController {
                 content: detailView.contentTextView.text,
                 date: date
             ),
-            process: viewModel.process,
             index: viewModel.index
         )
         
