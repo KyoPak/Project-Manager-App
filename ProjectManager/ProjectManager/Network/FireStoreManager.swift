@@ -36,23 +36,21 @@ final class FireStoreManager: CRUDManageable {
         ).getDocuments { querySnapshot, error in
             var plans: [Plan] = []
             
-            if let error = error {
-                print(error)
-            } else {
-                guard let querySnapshot = querySnapshot else { return }
-                for document in querySnapshot.documents {
-                    let result = self.convertPlan(from: document)
-                    
-                    switch result {
-                    case .success(let data):
-                        plans.append(data)
-                    case .failure(let error):
-                        //TODO: - Error 처리
-                        print(error)
-                    }
+            guard error == nil else { return }
+            guard let querySnapshot = querySnapshot else { return }
+            
+            for document in querySnapshot.documents {
+                let result = self.convertPlan(from: document)
+                
+                switch result {
+                case .success(let data):
+                    plans.append(data)
+                case .failure(let _):
+                    return
                 }
-                completion(plans)
             }
+            
+            completion(plans)
         }
     }
 
