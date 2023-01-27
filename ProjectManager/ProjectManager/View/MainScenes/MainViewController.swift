@@ -26,7 +26,8 @@ final class MainViewController: UIViewController {
         static let bottomValue = -50.0
     }
     
-    private let viewModel = MainViewModel()
+    private let viewModel = MainViewModel(crudManager: FireStoreManager())
+    
     private let todoView = ProcessView(viewModel: ProcessViewModel(process: .todo))
     private let doingView = ProcessView(viewModel: ProcessViewModel(process: .doing))
     private let doneView = ProcessView(viewModel: ProcessViewModel(process: .done))

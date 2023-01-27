@@ -8,7 +8,7 @@
 import Foundation
 
 final class MainViewModel {
-    private let fireStoreManager = FireStoreManager()
+    private let fireStoreManager: CRUDManageable
     
     private var todoData: [Plan] = [] {
         didSet {
@@ -40,6 +40,10 @@ final class MainViewModel {
     private var doingHandler: (([Plan]) -> Void)?
     private var doneHandler: (([Plan]) -> Void)?
     private var processListHandler: (([Process]) -> Void)?
+    
+    init(crudManager: CRUDManageable) {
+        fireStoreManager = crudManager
+    }
 }
 
 // MARK: - Method

@@ -8,7 +8,14 @@
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-final class FireStoreManager {
+protocol CRUDManageable {
+    func load(_ process: Process, completion: @escaping ([Plan]) -> Void)
+    func add(data: Plan)
+    func update(data: Plan)
+    func delete(data: Plan)
+}
+
+final class FireStoreManager: CRUDManageable {
     private enum DBConstant {
         static let collection = "Plans"
         static let titleAttribute = "title"
