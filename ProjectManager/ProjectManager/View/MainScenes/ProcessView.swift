@@ -157,7 +157,7 @@ extension ProcessView {
         tableView.addGestureRecognizer(longPress)
     }
     
-    @objc func longPressGesture(sender: UILongPressGestureRecognizer) {
+    @objc private func longPressGesture(sender: UILongPressGestureRecognizer) {
         let point = sender.location(in: tableView)
         
         guard let indexPath = tableView.indexPathForRow(at: point) else { return }

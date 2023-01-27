@@ -81,7 +81,7 @@ extension DetailViewController {
         viewModel.editToggle()
     }
     
-    @objc private func cancelButtonTapped() {
+    @objc private func cancleButtonTapped() {
         viewModel.finishEdit()
     }
     
@@ -114,7 +114,7 @@ extension DetailViewController {
             let cancelButton = UIBarButtonItem(
                 barButtonSystemItem: .cancel,
                 target: self,
-                action: #selector(cancelButtonTapped)
+                action: #selector(cancleButtonTapped)
             )
             
             navigationItem.leftBarButtonItem = cancelButton
@@ -147,10 +147,10 @@ extension DetailViewController {
 // MARK: - UITextFieldDelegate, UITextViewDelegate
 extension DetailViewController: UITextFieldDelegate, UITextViewDelegate {
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
-        return viewModel.isEdiatable
+        return viewModel.isEditable
     }
     
     func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        return viewModel.isEdiatable
+        return viewModel.isEditable
     }
 }

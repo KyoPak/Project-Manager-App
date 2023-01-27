@@ -40,9 +40,9 @@ final class DetailViewModel {
         }
     }
     
-    private(set) var isEdiatable = false {
+    private(set) var isEditable = false {
         didSet {
-            editableHandler?(isEdiatable)
+            editableHandler?(isEditable)
         }
     }
     
@@ -56,7 +56,7 @@ final class DetailViewModel {
         guard let data = data else {
             dataId = UUID()
             processStatus = Process.todo.state
-            isEdiatable = true
+            isEditable = true
             return
         }
         
@@ -66,7 +66,7 @@ final class DetailViewModel {
         date = data.deadLine
         content = data.content
         processStatus = data.processState
-        isEdiatable = false
+        isEditable = false
     }
 }
 
@@ -92,7 +92,7 @@ extension DetailViewModel {
     }
     
     func bindEditable(handler: @escaping (Bool) -> Void) {
-        handler(isEdiatable)
+        handler(isEditable)
         editableHandler = handler
     }
     
@@ -101,7 +101,7 @@ extension DetailViewModel {
     }
     
     func editToggle() {
-        isEdiatable.toggle()
+        isEditable.toggle()
     }
     
     func finishEdit() {
