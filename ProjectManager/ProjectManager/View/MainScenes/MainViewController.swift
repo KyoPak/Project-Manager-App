@@ -63,6 +63,8 @@ final class MainViewController: UIViewController {
         viewModel.bindProcessList { [weak self] processList in
             self?.showPopOver(processList: processList)
         }
+        
+        viewModel.loadData()
     }
 }
 

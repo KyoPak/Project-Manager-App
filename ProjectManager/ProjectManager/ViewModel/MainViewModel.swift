@@ -90,6 +90,20 @@ extension MainViewModel {
 
 // MARK: - Update, Delete Data, Change Process
 extension MainViewModel {
+    func loadData() {
+        fireStoreManager.load(.todo) { datas in
+            self.todoData = datas
+        }
+        
+        fireStoreManager.load(.doing) { datas in
+            self.doingData = datas
+        }
+        
+        fireStoreManager.load(.done) { datas in
+            self.doneData = datas
+        }
+    }
+    
     func updateData(data: Plan, index: Int?) {
         guard let index = index else {
             todoData.append(data)

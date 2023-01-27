@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Plan: Hashable {
+struct Plan: Hashable, Decodable {
     let id: UUID
     var title: String
     var content: String
