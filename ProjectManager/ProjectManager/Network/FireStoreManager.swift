@@ -27,9 +27,6 @@ final class FireStoreManager: CRUDManageable {
     private let fireStoreDB = Firestore.firestore().collection(DBConstant.collection)
     
     func load(_ process: Process, completion: @escaping ([Plan]) -> Void) {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .secondsSince1970
-        
         fireStoreDB.whereField(
             DBConstant.stateAttribute,
             isEqualTo: process.state

@@ -53,6 +53,7 @@ final class ProcessTableViewCell: UITableViewCell {
     
     override func prepareForReuse() {
         super.prepareForReuse()
+        dateLabel.textColor = .black
         [titleLabel, contentLabel, dateLabel].forEach {
             $0.text = ""
         }
