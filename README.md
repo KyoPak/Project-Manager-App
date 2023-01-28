@@ -142,22 +142,26 @@
     
 - <img src="https://i.imgur.com/i14DfmA.png" width=500>
 - 위의 그림처럼 MVVM에서의 View는 오직 시각적인 요소로만 이루어져야합니다.
-- ViewModel에서는 View의 로직을 처리하며, ViewModel 자체는 View의 로직을 처리하는 객체입니다. 
-    
-- 💡 기존의 MVC와 다른 점은 ViewController내부가 계층화가 되었다는 점입니다. 로직에 대한 부분을 ViewModel에서 처리하기 때문에 ViewController가 비대해지지 않는 점도 있지만, 테스트가 용이해진다는 점이 강점이라 생각됩니다. 
+- `ViewModel`에서는 View의 로직을 처리하며, `ViewModel` 자체는 View의 로직을 처리하는 객체입니다. 
+- 💡 기존의 MVC와 다른 점은 `ViewController`내부가 계층화가 되었다는 점입니다. 로직에 대한 부분을 ViewModel에서 처리하기 때문에 `ViewController`가 비대해지지 않는 점도 있지만, 테스트가 용이해진다는 점이 강점이라 생각됩니다. 
 - 실제로 프로젝트를 하며 가장 체감되었던 좋은 점은 모델의 로직이 아닌 View의 로직을 Test할 수 있다는 점 입니다. 
-- MVC에서의 View의 로직 테스트가 어려웠던 이유는 ViewController 내부에 로직과 View가 결합되어 있고, ViewController의 LifeCycle 또한 고려해줘야하기 때문에 테스트 용이성이 더욱 체감되었습니다.
+- MVC에서의 View의 로직 테스트가 어려웠던 이유는 `ViewController` 내부에 로직과 View가 결합되어 있고, `ViewController`의 LifeCycle 또한 고려해줘야하기 때문에 테스트 용이성이 더욱 체감되었습니다.
     
 </details> 
 
-### ⚙️ FireBase - Step3 작성 예정
+### ⚙️ FireBase
 <details>
 <summary> 
 펼쳐보기
 </summary>
     
-- 
-- 💡 
+- FireBase는 구글에서 제공하는 모바일 앱개발 플랫폼입니다.
+- 실시간으로 사용자 간에 데이터를 저장 및 동기화 할 수 있습니다.
+- 해당 프로젝트에서 서버 구축 없이 빠르게 사용할 수 있는 RemoteDB가 필요하였고, 추후에 Android와의 공유도 필요하다 생각하여 FireBase를 사용하였습니다.
+- 사용해본 결과, 굉장히 간단한 코드로 서버와 통신이 가능하였습니다.
+- FireBase의 데이터 적재 스타일을 보면 `Collection - Document - Field`와 같은 형식을 따랐으며, todo, doing, done의 `Process`에 맞게 3개의 Collection을 사용하려 했으나, 기능의 확장으로 인해 또 다른 Collection이 필요할 경우 FireBase에 대한 관리할 Point가 많아질 것이라고 생각이 들어 하나의 Collection을 사용하였으며 `Process`의 State를 나타낼 수 있는 Field를 추가하였습니다.
+    
+<img src= "https://i.imgur.com/dRovvee.png" width=1000>
     
 </details> 
 
@@ -175,13 +179,12 @@
     
 처음 구조를 생각 했을 때, `DataManager`라는 싱글톤 클래스에서 데이터를 관리하고,
 `MainViewModel`의 역할은 `DataManager`의 데이터를 각 리스트에 보여주고, `DataManage`r의 변경사항에 따라 `MainViewModel`이 가지고 있는 데이터가 갱신되게끔 생각하였습니다.
-
-하지만 굳이 `DataManager`라는 또 다른 Class를 만들어 관리하는 것이 불필요하다고 생각이 되었고, 
+- 하지만 굳이 `DataManager`라는 또 다른 Class를 만들어 관리하는 것이 불필요하다고 생각이 되었고, 
 테스트에 사용되는 객체가 독립적이어야 하는데 싱글톤 같은 경우 하나의 객체에 접근하기 때문에 MVVM의 장점중 하나인 테스트 용이성이 자칫 떨어질 수 있다고 생각이 들었습니다.
-    
 때문에 현재와 같이 MainViewModel에서 데이터를 관리하고, Process(등록, 편집, 삭제), index를 관리하게끔 설계를 변경하였습니다.
+- 추가로 유저의 Cell을 터치하여 Detail Data를 보여줘야 하는 경우, Long Press로 인하여 PopOver을 보여줘야 하는 경우에 대한 이벤트들을 다른 View에서 MainViewController로 Delegate를 사용하여 전달하고 필요한 경우 MainViewModel에서 로직을 처리하게끔 구현하였습니다.
+- `MainViewController`의 역할을 다른 View들에게 분리하였으며, `MainViewController`의 Data 변경 로직, `MainViewController`가 어느 시점에 PopOver을 띄워야하는지를 `MainViewModel`에서 관리하도록 구현하였습니다.
 
-설계는 추후 또 변경될 수 있습니다!
  
 </details>
 
@@ -211,19 +214,6 @@
 
 </details>
 
-
-### 🔥 FireBase의 컬렉션 사용에 대한 고민 3개? 1개?
-
-<details>
-<summary> 
-펼쳐보기
-</summary>
-
-**문제 👀**
-
-**해결 🔥**
-
-</details>
 
 
 ## 참고 링크
