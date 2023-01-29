@@ -36,7 +36,7 @@
 
 </details>
 
-### Class Diagram
+## Diagram
 
 <img src="https://i.imgur.com/eoeILza.png" width=800>
  
@@ -158,7 +158,7 @@
 - FireBase는 구글에서 제공하는 모바일 앱개발 플랫폼입니다.
 - 실시간으로 사용자 간에 데이터를 저장 및 동기화 할 수 있습니다.
 - 해당 프로젝트에서 서버 구축 없이 빠르게 사용할 수 있는 RemoteDB가 필요하였고, 추후에 Android와의 공유도 필요하다 생각하여 FireBase를 사용하였습니다.
-- 사용해본 결과, 굉장히 간단한 코드로 서버와 통신이 가능하였습니다.
+- 사용해본 결과, 굉장히 간단한 코드로 서버와 통신이 가능하였습니다.<br></br>
 - FireBase의 데이터 적재 스타일을 보면 `Collection - Document - Field`와 같은 형식을 따랐으며, todo, doing, done의 `Process`에 맞게 3개의 Collection을 사용하려 했으나, 기능의 확장으로 인해 또 다른 Collection이 필요할 경우 FireBase에 대한 관리할 Point가 많아질 것이라고 생각이 들어 하나의 Collection을 사용하였으며 `Process`의 State를 나타낼 수 있는 Field를 추가하였습니다.
     
 <img src= "https://i.imgur.com/dRovvee.png" width=1000>
@@ -181,7 +181,7 @@
 `MainViewModel`의 역할은 `DataManager`의 데이터를 각 리스트에 보여주고, `DataManage`r의 변경사항에 따라 `MainViewModel`이 가지고 있는 데이터가 갱신되게끔 생각하였습니다.
 - 하지만 굳이 `DataManager`라는 또 다른 Class를 만들어 관리하는 것이 불필요하다고 생각이 되었고, 
 테스트에 사용되는 객체가 독립적이어야 하는데 싱글톤 같은 경우 하나의 객체에 접근하기 때문에 MVVM의 장점중 하나인 테스트 용이성이 자칫 떨어질 수 있다고 생각이 들었습니다.
-때문에 현재와 같이 MainViewModel에서 데이터를 관리하고, Process(등록, 편집, 삭제), index를 관리하게끔 설계를 변경하였습니다.
+때문에 현재와 같이 MainViewModel에서 데이터를 관리하고, Process(등록, 편집, 삭제), index를 관리하게끔 설계를 변경하였습니다.<br></br>
 - 추가로 유저의 Cell을 터치하여 Detail Data를 보여줘야 하는 경우, Long Press로 인하여 PopOver을 보여줘야 하는 경우에 대한 이벤트들을 다른 View에서 MainViewController로 Delegate를 사용하여 전달하고 필요한 경우 MainViewModel에서 로직을 처리하게끔 구현하였습니다.
 - `MainViewController`의 역할을 다른 View들에게 분리하였으며, `MainViewController`의 Data 변경 로직, `MainViewController`가 어느 시점에 PopOver을 띄워야하는지를 `MainViewModel`에서 관리하도록 구현하였습니다.
 
@@ -201,16 +201,21 @@
 
 </details>
 
-### 🔥 ViewModel에 이벤트를 넘기는 방법
+### 🔥 FireBase load 구현 방법
 
 <details>
 <summary> 
 펼쳐보기
 </summary>
 
-**문제 👀**
+**문제 및 고민 👀**
+
+FireBase의 데이터들을 load해오는 메서드를 구현할 때, 모든 데이터들을 한번에 가져온 후 `viewModel`에서 분기처리를 할지, 기준에 맞는 데이터들을 load를 해올지 고민하였습니다. 하지만 FireBase의 `getDocument()`메서드는 비동기로 동작하고 추후에 Process뿐만 아니라 또 날짜 등 다른 기준의 데이터들을 가져올 수 도 있다고 생각하여 `whereField()`를 통해 원하는 조건에 맞는 데이터를 가져올 수 있게 구현하였습니다.<br></br>
+또한, FireBase의 TimeStamp가 Swift의 Date 타입과 다르기 때문에 자동으로 Decode 및 캐스팅할 수 없는 아래와 같은 오류가 발생하였습니다.
+`Cound not cast value of type 'FIRTimestamp'(0x...) to 'NSDate'`
 
 **해결 🔥**
+- 기존의 방법으로 Decode하는 방식이 아닌 FireBase에서 받아온 document 내부의 Field값들은 Any타입이기 때문에 원하는 타입으로 다운캐스팅하여 매칭시켜 저장하였으며, TimeStamp 값 또한 동일하게 처리하였습니다.
 
 </details>
 
@@ -219,5 +224,7 @@
 ## 참고 링크
 
 [공식문서]
+
+[FireStore](https://firebase.google.com/docs/firestore/quickstart)
 
 
